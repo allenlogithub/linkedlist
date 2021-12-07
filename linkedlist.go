@@ -7,11 +7,11 @@ import (
 type (
 	Node struct {
 		value int
-		next *Node
+		next  *Node
 	}
 
 	LinkedList struct {
-		head *Node
+		head   *Node
 		length int
 	}
 )
@@ -22,19 +22,19 @@ func (l *LinkedList) Push(v int) {
 	n.value = v
 	if l.length == 0 {
 		l.head = &n
-		l.length ++
+		l.length++
 		return
 	}
 	ptr := l.head
-	for i := 0; i < l.length; i ++ {
+	for i := 0; i < l.length; i++ {
 		if ptr.next != nil {
 			ptr = ptr.next
 		} else {
 			n.value = v
 			ptr.next = &n
-			l.length ++
+			l.length++
 			return
-		}		
+		}
 	}
 }
 
@@ -47,7 +47,7 @@ func (l *LinkedList) Pop(v int) {
 	}
 	if l.head.value == v {
 		l.head = l.head.next
-		l.length --
+		l.length--
 		return
 	}
 	for {
@@ -55,7 +55,7 @@ func (l *LinkedList) Pop(v int) {
 		case v:
 			prePtr.next = ptr.next
 			ptr = nil
-			l.length --
+			l.length--
 			return
 		default:
 			if ptr.next == nil {
@@ -70,7 +70,7 @@ func (l *LinkedList) Pop(v int) {
 // add a node with value:v at given position
 func (l *LinkedList) PushAt(pos, v int) {
 	if pos == l.length {
-		l.push(v)
+		l.Push(v)
 		return
 	} else if pos > l.length {
 		fmt.Println("posistion not allowed")
@@ -81,15 +81,15 @@ func (l *LinkedList) PushAt(pos, v int) {
 		newNode.value = v
 		newNode.next = ptr
 		l.head = &newNode
-		l.length ++
+		l.length++
 		return
 	}
-	for i := 1; i < l.length; i ++ {
+	for i := 1; i < l.length; i++ {
 		if i == pos {
 			newNode.value = v
 			newNode.next = ptr.next
 			ptr.next = &newNode
-			l.length ++
+			l.length++
 			return
 		}
 	}
@@ -107,5 +107,5 @@ func (l *LinkedList) Show() {
 		}
 		data = append(data, node.value)
 		node = node.next
-	}	
+	}
 }
