@@ -17,7 +17,7 @@ type (
 )
 
 // add a node with value:v
-func (l *LinkedList) push(v int) {
+func (l *LinkedList) Push(v int) {
 	n := Node{}
 	n.value = v
 	if l.length == 0 {
@@ -39,7 +39,7 @@ func (l *LinkedList) push(v int) {
 }
 
 // remove the first node with value:v
-func (l *LinkedList) pop(v int) {
+func (l *LinkedList) Pop(v int) {
 	prePtr, ptr := l.head, l.head
 	if l.length == 0 {
 		fmt.Println("data length is 0")
@@ -68,7 +68,7 @@ func (l *LinkedList) pop(v int) {
 }
 
 // add a node with value:v at given position
-func (l *LinkedList) pushAt(pos, v int) {
+func (l *LinkedList) PushAt(pos, v int) {
 	if pos == l.length {
 		l.push(v)
 		return
@@ -96,7 +96,7 @@ func (l *LinkedList) pushAt(pos, v int) {
 }
 
 // show the data of the linked list
-func (l *LinkedList) show() {
+func (l *LinkedList) Show() {
 	fmt.Println("l.length:", l.length)
 	var data []int
 	node := l.head
