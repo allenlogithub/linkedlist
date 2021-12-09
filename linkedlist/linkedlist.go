@@ -118,6 +118,41 @@ func (l *LinkedList) PushAt(pos, v int) *LinkedlistError {
 	}
 }
 
+// remove the element located at Position:pos
+func (l *LinkedList) PopAt(pos int) *LinkedlistError {
+	if l.length == 0 {		
+		return &LinkedlistError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	}
+	if pos > l.length - 1 {
+		return &LinkedlistError{
+			errors.New("IndexError"),
+			"Pop position should not larger than the last index",
+		}
+	}
+	if pos == 0 {
+		l.head = l.head.next
+		l.length--
+		return nil
+	}
+	for i := 1; i < l.length; i++ {
+		prePtr, ptr := l.head, l.head.next
+		if i == pos {
+			prePtr.next = ptr.next
+			l.length--
+			return nil
+		}
+		prePtr, ptr = ptr, ptr.next
+	}
+
+	return &LinkedlistError{
+		errors.New("Unknown"),
+		"Sth wrong in linkedlist.PopAt",
+	}
+}
+
 // show the data of the linked list
 func (l *LinkedList) Show() {
 	fmt.Println("LinkedList length:", l.length)
