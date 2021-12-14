@@ -7,7 +7,7 @@ import (
 
 type (
 	Node struct {
-		value int
+		value interface{}
 		next  *Node
 	}
 
@@ -23,7 +23,7 @@ type (
 )
 
 // add a node with value:v
-func (l *LinkedList) Push(v int) *LinkedlistError {
+func (l *LinkedList) Push(v interface{}) *LinkedlistError {
 	n := Node{}
 	n.value = v
 	if l.length == 0 {
@@ -49,7 +49,7 @@ func (l *LinkedList) Push(v int) *LinkedlistError {
 }
 
 // remove the first node with value:v
-func (l *LinkedList) Pop(v int) *LinkedlistError {
+func (l *LinkedList) Pop(v interface{}) *LinkedlistError {
 	prePtr, ptr := l.head, l.head
 	if l.length == 0 {		
 		return &LinkedlistError{
@@ -82,7 +82,7 @@ func (l *LinkedList) Pop(v int) *LinkedlistError {
 }
 
 // add a node with value:v at given position
-func (l *LinkedList) PushAt(pos, v int) *LinkedlistError {
+func (l *LinkedList) PushAt(pos int, v interface{}) *LinkedlistError {
 	if pos == l.length {
 		if err := l.Push(v); err != nil {
 			return err
@@ -137,8 +137,9 @@ func (l *LinkedList) PopAt(pos int) *LinkedlistError {
 		l.length--
 		return nil
 	}
+	prePtr, ptr := l.head, l.head.next
 	for i := 1; i < l.length; i++ {
-		prePtr, ptr := l.head, l.head.next
+		// prePtr, ptr := l.head, l.head.next
 		if i == pos {
 			prePtr.next = ptr.next
 			l.length--
@@ -156,7 +157,7 @@ func (l *LinkedList) PopAt(pos int) *LinkedlistError {
 // show the data of the linked list
 func (l *LinkedList) Show() {
 	fmt.Println("LinkedList length:", l.length)
-	var data []int
+	var data []interface{}
 	node := l.head
 	for {
 		if node == nil {
