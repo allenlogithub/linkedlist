@@ -36,13 +36,10 @@ func (l *DoublyLinkedList) Push(v interface{}) *DoublyLinkedlistError {
 	}
 
 	ptr := l.tail
-
 	n.value = v
 	n.next = nil
 	n.pre = ptr
-
 	ptr.next = &n
-
 	l.tail = &n
 	l.length++
 
@@ -66,13 +63,14 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 		ptr := l.head
 		n.next = ptr
 		n.pre = nil
+		ptr.pre = &n
 		l.head = &n
 		l.length++
 		return nil
 	} else if pos*2 > (l.length) {
 		ptr := l.tail
-		for i := l.length-1; i >= 0; i-- {
-			if i == pos{				
+		for i := l.length - 1; i >= 0; i-- {
+			if i == pos {
 				prePtr := ptr.pre
 				n.next = ptr
 				n.pre = prePtr
@@ -83,7 +81,7 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 			}
 			ptr = ptr.pre
 		}
-	} else if pos*2 <= (l.length){
+	} else if pos*2 <= (l.length) {
 		ptr := l.head
 		for i := 0; i < l.length; i++ {
 			if i == pos {
@@ -93,7 +91,7 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 				nxtPtr.pre = &n
 				ptr.next = &n
 				l.length++
-				return nil		
+				return nil
 			}
 			ptr = ptr.next
 		}
