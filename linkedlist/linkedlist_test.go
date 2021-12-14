@@ -6,8 +6,8 @@
 package linkedlist
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func (l *LinkedList) traverse() []interface{} {
@@ -64,7 +64,7 @@ func TestPop(t *testing.T) {
 func TestPushAt(t *testing.T) {
 	l := LinkedList{}
 
-	err := l.PushAt(1, 2)	
+	err := l.PushAt(1, 2)
 	if !(err.Error.Error() == "IndexError") {
 		t.Errorf("linkedlist.PushAt failed")
 	}
@@ -75,7 +75,7 @@ func TestPushAt(t *testing.T) {
 	l.PushAt(3, 4)
 	if !reflect.DeepEqual(l.traverse(), []interface{}{1, 2, 3, 4}) {
 		t.Errorf("linkedlist.PushAt failed")
-	}	
+	}
 }
 
 func TestPopAt(t *testing.T) {
@@ -91,6 +91,7 @@ func TestPopAt(t *testing.T) {
 	if !(err.Error.Error() == "IndexError") {
 		t.Errorf("linkedlist.PopAt failed")
 	}
+
 	l.Push(2)
 	l.Push(3)
 	l.PopAt(0)

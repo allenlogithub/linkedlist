@@ -17,7 +17,7 @@ type (
 	}
 
 	LinkedlistError struct {
-		Error error
+		Error   error
 		Message string
 	}
 )
@@ -51,7 +51,7 @@ func (l *LinkedList) Push(v interface{}) *LinkedlistError {
 // remove the first node with value:v
 func (l *LinkedList) Pop(v interface{}) *LinkedlistError {
 	prePtr, ptr := l.head, l.head
-	if l.length == 0 {		
+	if l.length == 0 {
 		return &LinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
@@ -120,13 +120,13 @@ func (l *LinkedList) PushAt(pos int, v interface{}) *LinkedlistError {
 
 // remove the element located at Position:pos
 func (l *LinkedList) PopAt(pos int) *LinkedlistError {
-	if l.length == 0 {		
+	if l.length == 0 {
 		return &LinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
 		}
 	}
-	if pos > l.length - 1 {
+	if pos > l.length-1 {
 		return &LinkedlistError{
 			errors.New("IndexError"),
 			"Pop position should not larger than the last index",
