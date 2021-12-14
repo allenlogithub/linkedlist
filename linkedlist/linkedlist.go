@@ -139,7 +139,6 @@ func (l *LinkedList) PopAt(pos int) *LinkedlistError {
 	}
 	prePtr, ptr := l.head, l.head.next
 	for i := 1; i < l.length; i++ {
-		// prePtr, ptr := l.head, l.head.next
 		if i == pos {
 			prePtr.next = ptr.next
 			l.length--
