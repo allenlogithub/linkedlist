@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	// "errors"
+	"errors"
 	"fmt"
 )
 
@@ -24,7 +24,8 @@ type (
 	}
 )
 
-func (l *DoublyLinkedList) Push(v interface{}) *LinkedlistError {
+// add a node at the tail
+func (l *DoublyLinkedList) Push(v interface{}) *DoublyLinkedlistError {
 	n := DNode{}
 	n.value = v
 	if l.length == 0 {
@@ -46,6 +47,62 @@ func (l *DoublyLinkedList) Push(v interface{}) *LinkedlistError {
 	l.length++
 
 	return nil
+}
+
+// add a node at the tail
+// adding a node from the head or the tail is based on pos (if pos > l.length/2: from tail)
+func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError {
+	n := DNode{}
+	n.value = v
+	if pos == l.length {
+		l.Push(v)
+		return nil
+	} else if pos > l.length {
+		return &DoublyLinkedlistError{
+			errors.New("IndexError"),
+			"Insert position should not larger than the last index",
+		}
+	} else if pos == 0 {
+		ptr := l.head
+		n.next = ptr
+		n.pre = nil
+		l.head = &n
+		l.length++
+		return nil
+	} else if pos*2 > (l.length) {
+		ptr := l.tail
+		for i := l.length-1; i >= 0; i-- {
+			if i == pos{				
+				prePtr := ptr.pre
+				n.next = ptr
+				n.pre = prePtr
+				ptr.pre = &n
+				prePtr.next = &n
+				l.length++
+				return nil
+			}
+			ptr = ptr.pre
+		}
+	} else if pos*2 <= (l.length){
+		ptr := l.head
+		for i := 0; i < l.length; i++ {
+			if i == pos {
+				nxtPtr := ptr.next
+				n.next = nxtPtr
+				n.pre = ptr
+				nxtPtr.pre = &n
+				ptr.next = &n
+				l.length++
+				return nil		
+			}
+			ptr = ptr.next
+		}
+	}
+
+	return &DoublyLinkedlistError{
+		errors.New("Unknown"),
+		"Sth wrong in linkedlist.PushAt",
+	}
 }
 
 // show the data of the linked list
