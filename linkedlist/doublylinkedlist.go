@@ -103,6 +103,49 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 	}
 }
 
+// pop the value:v from DLL if v exists
+func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
+	if l.length == 0 {
+		return &DoublyLinkedlistError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	}	
+	if l.head.value == v {
+		l.head.next.pre = nil
+		l.head = l.head.next
+		l.length--
+		return nil
+	}
+	ptr := l.head.next
+	for i := 1; i < l.length; i++ {
+		if ptr.value == v {
+			if ptr.next == nil {
+				ptr.pre.next = nil
+				l.tail = ptr.pre
+				l.length--
+				return nil
+			}
+			ptr.pre.next = ptr.next
+			ptr.next.pre = ptr.pre
+			l.length--
+			return nil
+		}
+		ptr = ptr.next
+		if ptr == nil {
+			return &DoublyLinkedlistError{
+				errors.New("ElementNotFound"),
+				"Element not found",
+			}
+		}
+	}
+
+	return &DoublyLinkedlistError{
+		errors.New("Unknown"),
+		"Sth wrong in linkedlist.Pop",
+	}
+}
+
 // show the data of the linked list
 // if fromHead is true, will traverse from head
 // if fromHead is false, will traverse from tail
