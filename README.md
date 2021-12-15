@@ -30,6 +30,7 @@ Show():
 &nbsp; Show the linkedlist info
 ```
 l.Show()
+// if Doubly Linked List, l.Show(bool), true for traversing from Head
 ```
 
 Error message:
