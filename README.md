@@ -1,8 +1,14 @@
 # linkedlist
+Declaration:
+```
+// Singly Linked List
+l := linkedlist.LinkedList{}
+// Doubly Linked List
+l = linkedlist.DoublyLinkedList{} 
+```
 Push(el):  
 &nbsp; Add an element at the end of the linkedlist
 ```
-l := linkedlist.LinkedList{}
 l.Push(3)
 ```
 PushAt(pos, el):  
