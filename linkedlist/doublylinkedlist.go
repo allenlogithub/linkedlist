@@ -146,6 +146,60 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 	}
 }
 
+// pop an element at a given position
+func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
+	if l.length == 0 {
+		return &DoublyLinkedlistError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	}
+	if pos >= l.length {
+		return &DoublyLinkedlistError{
+			errors.New("IndexError"),
+			"Pop position should not larger than the last index",
+		}
+	} else if pos == 0 {
+		l.head.next.pre = nil
+		l.head = l.head.next
+		l.length--
+		return nil
+	} else if pos == l.length - 1 {
+		ptr := l.tail
+		ptr.pre.next = nil
+		l.tail = ptr.pre
+		l.length--
+		return nil
+	} else if pos*2 > l.length {
+		ptr := l.tail.pre
+		for i := l.length - 2; i > 0; i-- {			
+			if i == pos {
+				ptr.next.pre = ptr.pre
+				ptr.pre.next = ptr.next
+				l.length--
+				return nil
+			}
+			ptr = ptr.pre
+		}
+	} else if pos*2 <= l.length {
+		ptr := l.head.next		
+		for i := 1; i < l.length; i++ {
+			if i == pos {
+				ptr.next.pre = ptr.pre
+				ptr.pre.next = ptr.next
+				l.length--
+				return nil
+			}
+			ptr = ptr.next
+		}
+	}
+
+	return &DoublyLinkedlistError{
+		errors.New("Unknown"),
+		"Sth wrong in linkedlist.PopAt",
+	}
+}
+
 // show the data of the linked list
 // if fromHead is true, will traverse from head
 // if fromHead is false, will traverse from tail
