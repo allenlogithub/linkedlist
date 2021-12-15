@@ -71,25 +71,23 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 		ptr := l.tail
 		for i := l.length - 1; i >= 0; i-- {
 			if i == pos {
-				prePtr := ptr.pre
 				n.next = ptr
-				n.pre = prePtr
+				n.pre = ptr.pre
 				ptr.pre = &n
-				prePtr.next = &n
+				ptr.pre.pre.next = &n
 				l.length++
 				return nil
 			}
 			ptr = ptr.pre
 		}
-	} else if pos*2 <= (l.length) {
-		ptr := l.head
-		for i := 0; i < l.length; i++ {
+	} else if pos*2 <= l.length {
+		ptr := l.head.next
+		for i := 1; i < l.length; i++ {
 			if i == pos {
-				nxtPtr := ptr.next
-				n.next = nxtPtr
-				n.pre = ptr
-				nxtPtr.pre = &n
-				ptr.next = &n
+				n.next = ptr
+				n.pre = ptr.pre
+				ptr.pre = &n
+				ptr.pre.pre.next = &n
 				l.length++
 				return nil
 			}
@@ -110,7 +108,7 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 			errors.New("IndexError"),
 			"Length should larger than 0",
 		}
-	}	
+	}
 	if l.head.value == v {
 		l.head.next.pre = nil
 		l.head = l.head.next
@@ -164,7 +162,7 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 		l.head = l.head.next
 		l.length--
 		return nil
-	} else if pos == l.length - 1 {
+	} else if pos == l.length-1 {
 		ptr := l.tail
 		ptr.pre.next = nil
 		l.tail = ptr.pre
@@ -172,7 +170,7 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 		return nil
 	} else if pos*2 > l.length {
 		ptr := l.tail.pre
-		for i := l.length - 2; i > 0; i-- {			
+		for i := l.length - 2; i > 0; i-- {
 			if i == pos {
 				ptr.next.pre = ptr.pre
 				ptr.pre.next = ptr.next
@@ -182,7 +180,7 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 			ptr = ptr.pre
 		}
 	} else if pos*2 <= l.length {
-		ptr := l.head.next		
+		ptr := l.head.next
 		for i := 1; i < l.length; i++ {
 			if i == pos {
 				ptr.next.pre = ptr.pre
