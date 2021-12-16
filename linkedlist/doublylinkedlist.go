@@ -7,14 +7,14 @@ import (
 
 type (
 	DNode struct {
-		value interface{}
-		next  *DNode
-		pre   *DNode
+		Value interface{}
+		Next  *DNode
+		Pre   *DNode
 	}
 
 	DoublyLinkedList struct {
-		head   *DNode
-		tail   *DNode
+		Head   *DNode
+		Tail   *DNode
 		length int
 	}
 
@@ -24,33 +24,33 @@ type (
 	}
 )
 
-// add a node at the tail
+// add a node at the Tail
 func (l *DoublyLinkedList) Push(v interface{}) *DoublyLinkedlistError {
 	n := DNode{}
-	n.value = v
+	n.Value = v
 	if l.length == 0 {
-		l.head = &n
-		l.tail = &n
+		l.Head = &n
+		l.Tail = &n
 		l.length++
 		return nil
 	}
 
-	ptr := l.tail
-	n.value = v
-	n.next = nil
-	n.pre = ptr
-	ptr.next = &n
-	l.tail = &n
+	ptr := l.Tail
+	n.Value = v
+	n.Next = nil
+	n.Pre = ptr
+	ptr.Next = &n
+	l.Tail = &n
 	l.length++
 
 	return nil
 }
 
-// add a node at the tail
-// adding a node from the head or the tail is based on pos (if pos > l.length/2: from tail)
+// add a node at the Tail
+// adding a node from the Head or the Tail is based on pos (if pos > l.length/2: from Tail)
 func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError {
 	n := DNode{}
-	n.value = v
+	n.Value = v
 	if pos == l.length {
 		l.Push(v)
 		return nil
@@ -60,38 +60,38 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 			"Insert position should not larger than the last index",
 		}
 	} else if pos == 0 {
-		ptr := l.head
-		n.next = ptr
-		n.pre = nil
-		ptr.pre = &n
-		l.head = &n
+		ptr := l.Head
+		n.Next = ptr
+		n.Pre = nil
+		ptr.Pre = &n
+		l.Head = &n
 		l.length++
 		return nil
 	} else if pos*2 > (l.length) {
-		ptr := l.tail
+		ptr := l.Tail
 		for i := l.length - 1; i >= 0; i-- {
 			if i == pos {
-				n.next = ptr
-				n.pre = ptr.pre
-				ptr.pre = &n
-				ptr.pre.pre.next = &n
+				n.Next = ptr
+				n.Pre = ptr.Pre
+				ptr.Pre = &n
+				ptr.Pre.Pre.Next = &n
 				l.length++
 				return nil
 			}
-			ptr = ptr.pre
+			ptr = ptr.Pre
 		}
 	} else if pos*2 <= l.length {
-		ptr := l.head.next
+		ptr := l.Head.Next
 		for i := 1; i < l.length; i++ {
 			if i == pos {
-				n.next = ptr
-				n.pre = ptr.pre
-				ptr.pre = &n
-				ptr.pre.pre.next = &n
+				n.Next = ptr
+				n.Pre = ptr.Pre
+				ptr.Pre = &n
+				ptr.Pre.Pre.Next = &n
 				l.length++
 				return nil
 			}
-			ptr = ptr.next
+			ptr = ptr.Next
 		}
 	}
 
@@ -101,7 +101,7 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 	}
 }
 
-// pop the value:v from DLL if v exists
+// pop the Value:v from DLL if v exists
 func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 	if l.length == 0 {
 		return &DoublyLinkedlistError{
@@ -109,27 +109,27 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 			"Length should larger than 0",
 		}
 	}
-	if l.head.value == v {
-		l.head.next.pre = nil
-		l.head = l.head.next
+	if l.Head.Value == v {
+		l.Head.Next.Pre = nil
+		l.Head = l.Head.Next
 		l.length--
 		return nil
 	}
-	ptr := l.head.next
+	ptr := l.Head.Next
 	for i := 1; i < l.length; i++ {
-		if ptr.value == v {
-			if ptr.next == nil {
-				ptr.pre.next = nil
-				l.tail = ptr.pre
+		if ptr.Value == v {
+			if ptr.Next == nil {
+				ptr.Pre.Next = nil
+				l.Tail = ptr.Pre
 				l.length--
 				return nil
 			}
-			ptr.pre.next = ptr.next
-			ptr.next.pre = ptr.pre
+			ptr.Pre.Next = ptr.Next
+			ptr.Next.Pre = ptr.Pre
 			l.length--
 			return nil
 		}
-		ptr = ptr.next
+		ptr = ptr.Next
 		if ptr == nil {
 			return &DoublyLinkedlistError{
 				errors.New("ElementNotFound"),
@@ -158,37 +158,37 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 			"Pop position should not larger than the last index",
 		}
 	} else if pos == 0 {
-		l.head.next.pre = nil
-		l.head = l.head.next
+		l.Head.Next.Pre = nil
+		l.Head = l.Head.Next
 		l.length--
 		return nil
 	} else if pos == l.length-1 {
-		ptr := l.tail
-		ptr.pre.next = nil
-		l.tail = ptr.pre
+		ptr := l.Tail
+		ptr.Pre.Next = nil
+		l.Tail = ptr.Pre
 		l.length--
 		return nil
 	} else if pos*2 > l.length {
-		ptr := l.tail.pre
+		ptr := l.Tail.Pre
 		for i := l.length - 2; i > 0; i-- {
 			if i == pos {
-				ptr.next.pre = ptr.pre
-				ptr.pre.next = ptr.next
+				ptr.Next.Pre = ptr.Pre
+				ptr.Pre.Next = ptr.Next
 				l.length--
 				return nil
 			}
-			ptr = ptr.pre
+			ptr = ptr.Pre
 		}
 	} else if pos*2 <= l.length {
-		ptr := l.head.next
+		ptr := l.Head.Next
 		for i := 1; i < l.length; i++ {
 			if i == pos {
-				ptr.next.pre = ptr.pre
-				ptr.pre.next = ptr.next
+				ptr.Next.Pre = ptr.Pre
+				ptr.Pre.Next = ptr.Next
 				l.length--
 				return nil
 			}
-			ptr = ptr.next
+			ptr = ptr.Next
 		}
 	}
 
@@ -198,32 +198,72 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 	}
 }
 
+// insert an element before a node
+func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) {
+	newNode := DNode{}
+	newNode.Value = v
+	if n.Pre == nil {
+		newNode.Pre = nil
+		newNode.Next = n
+		n.Pre = &newNode
+		l.Head = &newNode
+		l.length++
+		return
+	}
+	newNode.Pre = n.Pre
+	newNode.Next = n
+	n.Pre.Next = &newNode
+	n.Pre = &newNode
+	l.length++
+	return
+}
+
+// insert an element after a node
+func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) {
+	newNode := DNode{}
+	newNode.Value = v
+	if n.Next == nil {
+		newNode.Next = nil
+		newNode.Pre = n
+		n.Next = &newNode
+		l.Tail = &newNode
+		l.length++
+		return
+	}
+	newNode.Pre = n
+	newNode.Next = n.Next
+	n.Next.Pre = &newNode
+	n.Next = &newNode
+	l.length++
+	return
+}
+
 // show the data of the linked list
-// if fromHead is true, will traverse from head
-// if fromHead is false, will traverse from tail
+// if fromHead is true, will traverse from Head
+// if fromHead is false, will traverse from Tail
 func (l *DoublyLinkedList) Show(fromHead bool) {
 	fmt.Println("DoublyLinkedList length:", l.length)
 	var data []interface{}
 	if fromHead {
-		node := l.head
+		node := l.Head
 		for {
 			if node == nil {
 				fmt.Println("Data:", data)
 				return
 			}
 
-			data = append(data, node.value)
-			node = node.next
+			data = append(data, node.Value)
+			node = node.Next
 		}
 	}
-	node := l.tail
+	node := l.Tail
 	for {
 		if node == nil {
 			fmt.Println("Data:", data)
 			return
 		}
 
-		data = append(data, node.value)
-		node = node.pre
+		data = append(data, node.Value)
+		node = node.Pre
 	}
 }
