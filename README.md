@@ -26,6 +26,12 @@ PopAt(pos):
 ```
 l.PopAt(0)
 ```
+InsertBefore(*node, el)/ InsertAfter(*node, el):  
+&nbsp; Insert an element before/ after a node, support DLL at the moment  
+```
+l.InsertAfter(l.Head.Next, 1)
+l.InsertBefore(l.Head.Next, 1)
+```
 Show():  
 &nbsp; Show the linkedlist info
 ```
