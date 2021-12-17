@@ -122,7 +122,7 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 				"Element not found",
 			}
 		}
-	}	
+	}
 
 	return &DoublyLinkedlistError{
 		errors.New("Unknown"),
@@ -131,47 +131,32 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 }
 
 // pop an element at a given position
-func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
+func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {	
 	if l.length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
 		}
-	}
-	if pos >= l.length {
+	} else if pos >= l.length {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Pop position should not larger than the last index",
 		}
-	} else if pos == 0 {
-		l.Head.Next.Pre = nil
-		l.Head = l.Head.Next
-		l.length--
-		return nil
-	} else if pos == l.length-1 {
+	}
+	if pos*2 > l.length {
 		ptr := l.Tail
-		ptr.Pre.Next = nil
-		l.Tail = ptr.Pre
-		l.length--
-		return nil
-	} else if pos*2 > l.length {
-		ptr := l.Tail.Pre
-		for i := l.length - 2; i > 0; i-- {
+		for i := l.length - 1; i >= 0; i-- {
 			if i == pos {
-				ptr.Next.Pre = ptr.Pre
-				ptr.Pre.Next = ptr.Next
-				l.length--
+				l.Remove(ptr)
 				return nil
 			}
 			ptr = ptr.Pre
 		}
-	} else if pos*2 <= l.length {
-		ptr := l.Head.Next
-		for i := 1; i < l.length; i++ {
+	} else {
+		ptr := l.Head
+		for i := 0; i < l.length; i++ {
 			if i == pos {
-				ptr.Next.Pre = ptr.Pre
-				ptr.Pre.Next = ptr.Next
-				l.length--
+				l.Remove(ptr)
 				return nil
 			}
 			ptr = ptr.Next
