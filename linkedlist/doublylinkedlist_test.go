@@ -94,3 +94,39 @@ func TestDLLPushAt(t *testing.T) {
 	l.PushAt(3, 1.5)
 	l.checkDLL(t, []interface{}{0, 0.5, 1, 1.5, 2}, []interface{}{2, 1.5, 1, 0.5, 0}, 5, "PushAt")
 }
+
+func TestDLLPop(t *testing.T) {
+	l := DoublyLinkedList{}
+
+	// error check
+	if err := l.Pop(1); err != nil {
+		if err.Error.Error() != "IndexError" {
+			t.Errorf("DLL.Pop failed")
+		}
+	}
+
+	// error check
+	l.Push(0)
+	if err := l.Pop(1); err != nil {
+		if err.Error.Error() != "ElementNotFound" {
+			t.Errorf("DLL.Pop failed")
+		}
+	}
+
+	// error check
+	l.Push(1)
+	l.Push(2)
+	if err := l.Pop(3); err != nil {
+		if err.Error.Error() != "ElementNotFound" {
+			t.Errorf("DLL.Pop failed")
+		}
+	}	
+
+	// l.Head.value == v
+	l.Pop(0)
+	l.checkDLL(t, []interface{}{1, 2}, []interface{}{2, 1}, 2, "Pop")	
+
+	// *Node.value == v
+	l.Pop(2)
+	l.checkDLL(t, []interface{}{1}, []interface{}{1}, 1, "Pop")
+}
