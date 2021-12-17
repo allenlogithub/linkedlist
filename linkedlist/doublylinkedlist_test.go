@@ -181,8 +181,15 @@ func TestDLLInsertBefore(t *testing.T) {
 		}
 	}
 
-	// pos != 0 check
+	// error check
 	l.Push(0)
+	if err := l.InsertBefore(l.Head.Pre, 2); err != nil {
+		if err.Error.Error() != "TypeError" {
+			t.Errorf("DLL.InsertAfter failed")
+		}
+	}
+
+	// pos != 0 check
 	l.Push(1)
 	l.InsertBefore(l.Head.Next, 2)
 	l.checkDLL(t, []interface{}{0, 2, 1}, []interface{}{1, 2, 0}, 3, "InsertBefore")

@@ -176,6 +176,11 @@ func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedli
 			errors.New("IndexError"),
 			"Length should larger than 0",
 		}
+	} else if n == nil {
+		return &DoublyLinkedlistError{
+			errors.New("TypeError"),
+			"Node can't be nil",
+		}
 	}
 	newNode := DNode{}
 	newNode.Value = v
