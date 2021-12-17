@@ -238,6 +238,30 @@ func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) {
 	return
 }
 
+// remove an element
+// no RemoveBefore/ RemoveAfter required, just use Remove(node.pre)/ Remove(node.next)
+func (l *DoublyLinkedList) Remove(n *DNode) *DoublyLinkedlistError {
+	if n == nil {
+		return &DoublyLinkedlistError{
+			errors.New("ElementNotFound"),
+			"Element shouldn't be nil",
+		}
+	}
+	if n.Pre == nil {
+		l.Head = n.Next
+	} else {
+		n.Pre.Next = n.Next
+	}
+	if n.Next == nil {
+		l.Tail = n.Pre
+	} else {
+		n.Next.Pre = n.Pre
+	}
+	l.length--
+
+	return nil
+}
+
 // show the data of the linked list
 // if fromHead is true, will traverse from Head
 // if fromHead is false, will traverse from Tail
