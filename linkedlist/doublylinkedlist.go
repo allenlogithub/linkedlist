@@ -170,7 +170,13 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 }
 
 // insert an element before a node
-func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) {
+func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedlistError {
+	if n == nil {
+		return &DoublyLinkedlistError{
+			errors.New("TypeError"),
+			"Node shoudn't be nil",
+		}
+	}
 	newNode := DNode{}
 	newNode.Value = v
 	if n.Pre == nil {
@@ -179,14 +185,14 @@ func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) {
 		n.Pre = &newNode
 		l.Head = &newNode
 		l.length++
-		return
+		return nil
 	}
 	newNode.Pre = n.Pre
 	newNode.Next = n
 	n.Pre.Next = &newNode
 	n.Pre = &newNode
 	l.length++
-	return
+	return nil
 }
 
 // insert an element after a node
