@@ -171,10 +171,10 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 
 // insert an element before a node
 func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedlistError {
-	if n == nil {
+	if l.length == 0 {
 		return &DoublyLinkedlistError{
-			errors.New("TypeError"),
-			"Node shoudn't be nil",
+			errors.New("IndexError"),
+			"Length should larger than 0",
 		}
 	}
 	newNode := DNode{}

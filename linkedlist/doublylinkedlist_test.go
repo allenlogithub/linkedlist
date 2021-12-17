@@ -176,8 +176,8 @@ func TestDLLInsertBefore(t *testing.T) {
 
 	// error check
 	if err := l.InsertBefore(l.Head, 2); err != nil {
-		if err.Error.Error() != "TypeError" {
-			t.Errorf("DLL.PopAt failed")
+		if err.Error.Error() != "IndexError" {
+			t.Errorf("DLL.InsertBefore failed")
 		}
 	}
 
