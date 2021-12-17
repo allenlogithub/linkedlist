@@ -109,24 +109,10 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 			"Length should larger than 0",
 		}
 	}
-	if l.Head.Value == v {
-		l.Head.Next.Pre = nil
-		l.Head = l.Head.Next
-		l.length--
-		return nil
-	}
-	ptr := l.Head.Next
-	for i := 1; i < l.length; i++ {
+	ptr := l.Head
+	for {
 		if ptr.Value == v {
-			if ptr.Next == nil {
-				ptr.Pre.Next = nil
-				l.Tail = ptr.Pre
-				l.length--
-				return nil
-			}
-			ptr.Pre.Next = ptr.Next
-			ptr.Next.Pre = ptr.Pre
-			l.length--
+			l.Remove(ptr)
 			return nil
 		}
 		ptr = ptr.Next
@@ -136,7 +122,7 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 				"Element not found",
 			}
 		}
-	}
+	}	
 
 	return &DoublyLinkedlistError{
 		errors.New("Unknown"),
