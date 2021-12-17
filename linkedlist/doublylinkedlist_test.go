@@ -170,3 +170,24 @@ func TestDLLPopAt(t *testing.T) {
 	l.PopAt(2)
 	l.checkDLL(t, []interface{}{1, 3}, []interface{}{3, 1}, 2, "PopAt")
 }
+
+func TestDLLInsertBefore(t *testing.T) {
+	l := DoublyLinkedList{}
+
+	// error check
+	if err := l.InsertBefore(l.Head, 2); err != nil {
+		if err.Error.Error() != "TypeError" {
+			t.Errorf("DLL.PopAt failed")
+		}
+	}
+
+	// pos != 0 check
+	l.Push(0)
+	l.Push(1)
+	l.InsertBefore(l.Head.Next, 2)
+	l.checkDLL(t, []interface{}{0, 2, 1}, []interface{}{1, 2, 0}, 3, "InsertBefore")
+
+	// pos == 0 check
+	l.InsertBefore(l.Head, 3)
+	l.checkDLL(t, []interface{}{3, 0, 2, 1}, []interface{}{1, 2, 0, 3}, 4, "InsertBefore")
+}
