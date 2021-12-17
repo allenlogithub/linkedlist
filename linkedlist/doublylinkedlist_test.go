@@ -191,3 +191,31 @@ func TestDLLInsertBefore(t *testing.T) {
 	l.InsertBefore(l.Head, 3)
 	l.checkDLL(t, []interface{}{3, 0, 2, 1}, []interface{}{1, 2, 0, 3}, 4, "InsertBefore")
 }
+
+func TestDLLInsertAfter(t *testing.T) {
+	l := DoublyLinkedList{}
+
+	// error check
+	if err := l.InsertAfter(l.Head, 2); err != nil {
+		if err.Error.Error() != "IndexError" {
+			t.Errorf("DLL.InsertAfter failed")
+		}
+	}
+
+	// error check
+	l.Push(0)
+	if err := l.InsertAfter(l.Head, 2); err != nil {
+		if err.Error.Error() != "TypeError" {
+			t.Errorf("DLL.InsertAfter failed")
+		}
+	}
+	
+	// pos != 0 check
+	l.Push(1)
+	l.InsertAfter(l.Head.Next, 3)
+	l.checkDLL(t, []interface{}{0, 2, 3, 1}, []interface{}{1, 3, 2, 0}, 4, "InsertBefore")
+
+	// pos == length - 1
+	l.InsertAfter(l.Head.Next.Next.Next, 4)
+	l.checkDLL(t, []interface{}{0, 2, 3, 1, 4}, []interface{}{4, 1, 3, 2, 0}, 5, "InsertBefore")
+}
