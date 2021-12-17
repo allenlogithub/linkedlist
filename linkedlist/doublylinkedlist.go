@@ -196,7 +196,18 @@ func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedli
 }
 
 // insert an element after a node
-func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) {
+func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) *DoublyLinkedlistError {
+	if l.length == 0 {
+		return &DoublyLinkedlistError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	} else if n == nil {
+		return &DoublyLinkedlistError{
+			errors.New("TypeError"),
+			"Node can't be nil",
+		}
+	}
 	newNode := DNode{}
 	newNode.Value = v
 	if n.Next == nil {
@@ -205,14 +216,14 @@ func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) {
 		n.Next = &newNode
 		l.Tail = &newNode
 		l.length++
-		return
+		return nil
 	}
 	newNode.Pre = n
 	newNode.Next = n.Next
 	n.Next.Pre = &newNode
 	n.Next = &newNode
 	l.length++
-	return
+	return nil
 }
 
 // remove an element
