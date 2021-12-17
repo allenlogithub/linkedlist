@@ -220,9 +220,33 @@ func TestDLLInsertAfter(t *testing.T) {
 	// pos != 0 check
 	l.Push(1)
 	l.InsertAfter(l.Head.Next, 3)
-	l.checkDLL(t, []interface{}{0, 2, 3, 1}, []interface{}{1, 3, 2, 0}, 4, "InsertBefore")
+	l.checkDLL(t, []interface{}{0, 2, 3, 1}, []interface{}{1, 3, 2, 0}, 4, "InsertAfter")
 
 	// pos == length - 1
 	l.InsertAfter(l.Head.Next.Next.Next, 4)
-	l.checkDLL(t, []interface{}{0, 2, 3, 1, 4}, []interface{}{4, 1, 3, 2, 0}, 5, "InsertBefore")
+	l.checkDLL(t, []interface{}{0, 2, 3, 1, 4}, []interface{}{4, 1, 3, 2, 0}, 5, "InsertAfter")
+}
+
+func TestDLLRemove(t *testing.T) {
+	l := DoublyLinkedList{}
+	var emptyDoublyLinkedList []interface{}
+
+	// error check
+	if err := l.Remove(l.Head); err != nil {
+		if err.Error.Error() != "ElementNotFound" {
+			t.Errorf("DLL.Remove failed")
+		}
+	}
+
+	// check
+	l.Push(1)
+	l.Remove(l.Head)
+	l.checkDLL(t, emptyDoublyLinkedList, emptyDoublyLinkedList, 0, "Remove")
+	l.Push(0)
+	l.Push(1)
+	l.Remove(l.Head.Next)
+	l.checkDLL(t, []interface{}{0}, []interface{}{0}, 1, "Remove")
+	l.Push(2)
+	l.Remove(l.Head)
+	l.checkDLL(t, []interface{}{2}, []interface{}{2}, 1, "Remove")
 }
