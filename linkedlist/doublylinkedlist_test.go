@@ -120,13 +120,53 @@ func TestDLLPop(t *testing.T) {
 		if err.Error.Error() != "ElementNotFound" {
 			t.Errorf("DLL.Pop failed")
 		}
-	}	
+	}
 
 	// l.Head.value == v
 	l.Pop(0)
-	l.checkDLL(t, []interface{}{1, 2}, []interface{}{2, 1}, 2, "Pop")	
+	l.checkDLL(t, []interface{}{1, 2}, []interface{}{2, 1}, 2, "Pop")
 
 	// *Node.value == v
 	l.Pop(2)
 	l.checkDLL(t, []interface{}{1}, []interface{}{1}, 1, "Pop")
+}
+
+func TestDLLPopAt(t *testing.T) {
+	l := DoublyLinkedList{}
+
+	// l.length == 0
+	if err := l.PopAt(1); err != nil {
+		if err.Error.Error() != "IndexError" {
+			t.Errorf("DLL.PopAt failed")
+		}
+	}
+
+	// pos >- l.length
+	l.Push(0)
+	if err := l.PopAt(1); err != nil {
+		if err.Error.Error() != "IndexError" {
+			t.Errorf("DLL.PopAt failed")
+		}
+	}
+
+	// pos == 0
+	l.Push(1)
+	l.PopAt(0)
+	l.checkDLL(t, []interface{}{1}, []interface{}{1}, 1, "PopAt")
+
+	// pos*2 > l.length
+	l.Push(2)
+	l.Push(3)
+	l.Push(4)
+	l.Push(5)
+	l.PopAt(3)
+	l.checkDLL(t, []interface{}{1, 2, 3, 5}, []interface{}{5, 3, 2, 1}, 4, "PopAt")
+
+	// pos*2 <= l.length
+	l.PopAt(1)
+	l.checkDLL(t, []interface{}{1, 3, 5}, []interface{}{5, 3, 1}, 3, "PopAt")
+
+	// pos == l.length - 1
+	l.PopAt(2)
+	l.checkDLL(t, []interface{}{1, 3}, []interface{}{3, 1}, 2, "PopAt")
 }
