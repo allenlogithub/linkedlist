@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	// "errors"
+	"errors"
 	"fmt"
 )
 
@@ -40,6 +40,51 @@ func (l *DoublyCircularLinkedList) Push(v interface{}) *DoublyCircularLinkedList
 	ptr.Next = &n
 	l.Head.Pre = &n
 	l.Length++
+
+	return nil
+}
+
+// add a node before a node
+func (l *DoublyCircularLinkedList) InsertBefore(n *DCNode, v interface{}) *DoublyCircularLinkedListError {
+	if l.Length == 0 {
+		return &DoublyCircularLinkedListError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	} else if n == nil {
+		return &DoublyCircularLinkedListError{
+			errors.New("TypeError"),
+			"Node can't be nil",
+		}
+	}
+	newNode := DCNode{}
+	newNode.Value = v
+	newNode.Next = n
+	newNode.Pre = n.Pre
+	n.Pre.Next = &newNode
+	n.Pre = &newNode
+
+	return nil
+}
+
+func (l *DoublyCircularLinkedList) InsertAfter(n *DCNode, v interface{}) *DoublyCircularLinkedListError {
+	if l.Length == 0 {
+		return &DoublyCircularLinkedListError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	} else if n == nil {
+		return &DoublyCircularLinkedListError{
+			errors.New("TypeError"),
+			"Node can't be nil",
+		}
+	}
+	newNode := DCNode{}
+	newNode.Value = v
+	newNode.Next = n.Next
+	newNode.Pre = n
+	n.Next.Pre = &newNode
+	n.Next = &newNode	
 
 	return nil
 }
