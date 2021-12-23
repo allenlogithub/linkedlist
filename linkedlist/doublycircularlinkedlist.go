@@ -115,24 +115,13 @@ func (l *DoublyCircularLinkedList) Remove(n *DCNode) *DoublyCircularLinkedListEr
 			"Node not found",
 		}
 	default:
-		ptr := l.Head
-		for i := 0; i < l.Length; i++ {
-			if n == ptr {
-				if n == l.Head {
-					l.Head = n.Next
-				}
-				n.Pre.Next = n.Next
-				n.Next.Pre = n.Pre
-				l.Length--
-				return nil
-			}
-			ptr = ptr.Next
+		if n == l.Head {
+			l.Head = n.Next
 		}
-
-		return &DoublyCircularLinkedListError{
-			errors.New("ElementNotFound"),
-			"Node not found",
-		}
+		n.Pre.Next = n.Next
+		n.Next.Pre = n.Pre
+		l.Length--
+		return nil
 	}
 }
 
