@@ -131,7 +131,7 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 }
 
 // pop an element at a given position
-func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {	
+func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 	if l.length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),

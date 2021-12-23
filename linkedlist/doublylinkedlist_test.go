@@ -216,7 +216,7 @@ func TestDLLInsertAfter(t *testing.T) {
 			t.Errorf("DLL.InsertAfter failed")
 		}
 	}
-	
+
 	// pos != 0 check
 	l.Push(1)
 	l.InsertAfter(l.Head.Next, 3)
