@@ -8,17 +8,17 @@ import (
 type (
 	DCNode struct {
 		Value interface{}
-		Next *DCNode
-		Pre *DCNode
+		Next  *DCNode
+		Pre   *DCNode
 	}
 
 	DoublyCircularLinkedList struct {
-		Head *DCNode
+		Head   *DCNode
 		Length int
 	}
 
 	DoublyCircularLinkedListError struct {
-		Error error
+		Error   error
 		Message string
 	}
 )
@@ -31,7 +31,7 @@ func (l *DoublyCircularLinkedList) Push(v interface{}) *DoublyCircularLinkedList
 		n.Next = &n
 		n.Pre = &n
 		l.Head = &n
-		l.Length ++
+		l.Length++
 		return nil
 	}
 	ptr := l.Head.Pre
@@ -63,6 +63,7 @@ func (l *DoublyCircularLinkedList) InsertBefore(n *DCNode, v interface{}) *Doubl
 	newNode.Pre = n.Pre
 	n.Pre.Next = &newNode
 	n.Pre = &newNode
+	l.Length++
 
 	return nil
 }
@@ -84,9 +85,55 @@ func (l *DoublyCircularLinkedList) InsertAfter(n *DCNode, v interface{}) *Doubly
 	newNode.Next = n.Next
 	newNode.Pre = n
 	n.Next.Pre = &newNode
-	n.Next = &newNode	
+	n.Next = &newNode
+	l.Length++
 
 	return nil
+}
+
+func (l *DoublyCircularLinkedList) Remove(n *DCNode) *DoublyCircularLinkedListError {
+	if n == nil {
+		return &DoublyCircularLinkedListError{
+			errors.New("ElementNotFound"),
+			"Node shouldn't be nil",
+		}
+	}
+	switch len := l.Length; len {
+	case 0:
+		return &DoublyCircularLinkedListError{
+			errors.New("ElementNotFound"),
+			"Length of DCLL is 0",
+		}
+	case 1:
+		if l.Head == n {
+			l.Head = nil
+			l.Length--
+			return nil
+		}
+		return &DoublyCircularLinkedListError{
+			errors.New("ElementNotFound"),
+			"Node not found",
+		}
+	default:
+		ptr := l.Head
+		for i := 0; i < l.Length; i++ {
+			if n == ptr {
+				if n == l.Head {
+					l.Head = n.Next
+				}
+				n.Pre.Next = n.Next
+				n.Next.Pre = n.Pre
+				l.Length--
+				return nil
+			}
+			ptr = ptr.Next
+		}
+
+		return &DoublyCircularLinkedListError{
+			errors.New("ElementNotFound"),
+			"Node not found",
+		}
+	}
 }
 
 func (l *DoublyCircularLinkedList) Show(fromHead bool, steps int) {
