@@ -128,6 +128,10 @@ func (l *DoublyCircularLinkedList) Remove(n *DCNode) *DoublyCircularLinkedListEr
 func (l *DoublyCircularLinkedList) Show(fromHead bool, steps int) {
 	fmt.Println("DoublyCircularLinkedList length:", l.Length)
 	var data []interface{}
+	if l.Length == 0 {
+		fmt.Println("Data:", data)
+		return
+	}
 	count := 0
 
 	if fromHead {
