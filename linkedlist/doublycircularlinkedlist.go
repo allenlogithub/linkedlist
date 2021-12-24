@@ -91,6 +91,24 @@ func (l *DoublyCircularLinkedList) InsertAfter(n *DCNode, v interface{}) *Doubly
 	return nil
 }
 
+// remove a node by a given element value
+func (l *DoublyCircularLinkedList) Pop(v interface{}) *DoublyCircularLinkedListError {
+	ptr := l.Head
+	for i := 0; i < l.Length; i++ {
+		if ptr.Value == v {
+			l.Remove(ptr)
+			return nil
+		}
+		ptr = ptr.Next
+	}
+
+	return &DoublyCircularLinkedListError{
+		errors.New("ElementNotFound"),
+		"Node not found",
+	}
+}
+
+// remove a node
 func (l *DoublyCircularLinkedList) Remove(n *DCNode) *DoublyCircularLinkedListError {
 	if n == nil {
 		return &DoublyCircularLinkedListError{
