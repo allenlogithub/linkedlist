@@ -108,6 +108,45 @@ func (l *DoublyCircularLinkedList) Pop(v interface{}) *DoublyCircularLinkedListE
 	}
 }
 
+// pop an element at a given position
+func (l *DoublyCircularLinkedList) PopAt(pos int) *DoublyCircularLinkedListError {
+	if l.Length == 0 {
+		return &DoublyCircularLinkedListError{
+			errors.New("IndexError"),
+			"Length should larger than 0",
+		}
+	} else if pos >= l.Length {
+		return &DoublyCircularLinkedListError{
+			errors.New("IndexError"),
+			"Pop position should not larger than the last index",
+		}
+	}
+	if pos*2 > l.Length {
+		ptr := l.Head.Pre
+		for i := l.Length - 1; i >= 0; i-- {
+			if i == pos {
+				l.Remove(ptr)
+				return nil
+			}
+			ptr = ptr.Pre
+		}
+	} else {
+		ptr := l.Head
+		for i := 0; i < l.Length; i++ {
+			if i == pos {
+				l.Remove(ptr)
+				return nil
+			}
+			ptr = ptr.Next
+		}
+	}
+
+	return &DoublyCircularLinkedListError{
+		errors.New("Unknown"),
+		"Sth wrong in linkedlist.PopAt",
+	}
+}
+
 // remove a node
 func (l *DoublyCircularLinkedList) Remove(n *DCNode) *DoublyCircularLinkedListError {
 	if n == nil {
