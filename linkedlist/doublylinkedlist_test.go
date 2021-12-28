@@ -16,7 +16,7 @@ import (
 func (l *DoublyLinkedList) traverse() []interface{} {
 	var values []interface{}
 	n := l.Head
-	for i := 0; i < l.length; i++ {
+	for i := 0; i < l.Length; i++ {
 		values = append(values, n.Value)
 		n = n.Next
 	}
@@ -27,7 +27,7 @@ func (l *DoublyLinkedList) traverse() []interface{} {
 func (l *DoublyLinkedList) revTraverse() []interface{} {
 	var values []interface{}
 	n := l.Tail
-	for i := l.length - 1; i >= 0; i-- {
+	for i := l.Length - 1; i >= 0; i-- {
 		values = append(values, n.Value)
 		n = n.Pre
 	}
@@ -36,17 +36,17 @@ func (l *DoublyLinkedList) revTraverse() []interface{} {
 }
 
 func (l *DoublyLinkedList) getLength() int {
-	return l.length
+	return l.Length
 }
 
-func (l *DoublyLinkedList) checkDLL(t *testing.T, forward []interface{}, backward []interface{}, length int, funcName string) {
+func (l *DoublyLinkedList) checkDLL(t *testing.T, forward []interface{}, backward []interface{}, Length int, funcName string) {
 	if !reflect.DeepEqual(l.traverse(), forward) {
 		t.Errorf("DLL.%s failed", funcName)
 	}
 	if !reflect.DeepEqual(l.revTraverse(), backward) {
 		t.Errorf("DLL.%s failed", funcName)
 	}
-	if l.getLength() != length {
+	if l.getLength() != Length {
 		t.Errorf("DLL.%s failed", funcName)
 	}
 }
@@ -82,15 +82,15 @@ func TestDLLPushAt(t *testing.T) {
 	l.PushAt(0, 0)
 	l.checkDLL(t, []interface{}{0, 1}, []interface{}{1, 0}, 2, "PushAt")
 
-	// pos == l.length check
+	// pos == l.Length check
 	l.PushAt(2, 2)
 	l.checkDLL(t, []interface{}{0, 1, 2}, []interface{}{2, 1, 0}, 3, "PushAt")
 
-	// pos > l.length/2 check
+	// pos > l.Length/2 check
 	l.PushAt(1, 0.5)
 	l.checkDLL(t, []interface{}{0, 0.5, 1, 2}, []interface{}{2, 1, 0.5, 0}, 4, "PushAt")
 
-	// pos <= l.length/2 check
+	// pos <= l.Length/2 check
 	l.PushAt(3, 1.5)
 	l.checkDLL(t, []interface{}{0, 0.5, 1, 1.5, 2}, []interface{}{2, 1.5, 1, 0.5, 0}, 5, "PushAt")
 }
@@ -134,14 +134,14 @@ func TestDLLPop(t *testing.T) {
 func TestDLLPopAt(t *testing.T) {
 	l := DoublyLinkedList{}
 
-	// l.length == 0
+	// l.Length == 0
 	if err := l.PopAt(1); err != nil {
 		if err.Error.Error() != "IndexError" {
 			t.Errorf("DLL.PopAt failed")
 		}
 	}
 
-	// pos >- l.length
+	// pos >- l.Length
 	l.Push(0)
 	if err := l.PopAt(1); err != nil {
 		if err.Error.Error() != "IndexError" {
@@ -154,7 +154,7 @@ func TestDLLPopAt(t *testing.T) {
 	l.PopAt(0)
 	l.checkDLL(t, []interface{}{1}, []interface{}{1}, 1, "PopAt")
 
-	// pos*2 > l.length
+	// pos*2 > l.Length
 	l.Push(2)
 	l.Push(3)
 	l.Push(4)
@@ -162,11 +162,11 @@ func TestDLLPopAt(t *testing.T) {
 	l.PopAt(3)
 	l.checkDLL(t, []interface{}{1, 2, 3, 5}, []interface{}{5, 3, 2, 1}, 4, "PopAt")
 
-	// pos*2 <= l.length
+	// pos*2 <= l.Length
 	l.PopAt(1)
 	l.checkDLL(t, []interface{}{1, 3, 5}, []interface{}{5, 3, 1}, 3, "PopAt")
 
-	// pos == l.length - 1
+	// pos == l.Length - 1
 	l.PopAt(2)
 	l.checkDLL(t, []interface{}{1, 3}, []interface{}{3, 1}, 2, "PopAt")
 }
@@ -222,7 +222,7 @@ func TestDLLInsertAfter(t *testing.T) {
 	l.InsertAfter(l.Head.Next, 3)
 	l.checkDLL(t, []interface{}{0, 2, 3, 1}, []interface{}{1, 3, 2, 0}, 4, "InsertAfter")
 
-	// pos == length - 1
+	// pos == Length - 1
 	l.InsertAfter(l.Head.Next.Next.Next, 4)
 	l.checkDLL(t, []interface{}{0, 2, 3, 1, 4}, []interface{}{4, 1, 3, 2, 0}, 5, "InsertAfter")
 }
