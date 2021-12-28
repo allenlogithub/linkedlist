@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func IntAdd(a, b string) (string, *OperationError) {
+func IntAdd(a, b string) (*DLL, *OperationError) {
 	l := DLL{}
 
 	if len(a) < len(b) {
@@ -13,7 +13,7 @@ func IntAdd(a, b string) (string, *OperationError) {
 	}
 
 	if a[0] == 48 || b[0] == 48 {
-		return "", &OperationError{
+		return &l, &OperationError{
 			errors.New("InputError"),
 			"First char of the input shouldn't be 0",
 		}
@@ -32,7 +32,7 @@ func IntAdd(a, b string) (string, *OperationError) {
 			carry = 0
 		}
 		if err := l.Push(byte(sum + 48)); err != nil {
-			return "", &OperationError{
+			return &l, &OperationError{
 				err.Error,
 				err.Message,
 			}
@@ -40,16 +40,12 @@ func IntAdd(a, b string) (string, *OperationError) {
 	}
 	if carry == 1 {
 		if err := l.Push(byte(49)); err != nil {
-			return "", &OperationError{
+			return &l, &OperationError{
 				err.Error,
 				err.Message,
 			}
 		}
 	}
 
-	if val, err := l.out(); err == nil {
-		return val, nil
-	} else {
-		return "", err
-	}
+	return &l, nil
 }

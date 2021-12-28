@@ -17,7 +17,7 @@ type (
 	}
 )
 
-func (l *DLL) out() (string, *OperationError) {
+func (l *DLL) ToString() (string, *OperationError) {
 	s, ptr := []byte{}, l.Tail
 	for {
 		if ptr == nil {
