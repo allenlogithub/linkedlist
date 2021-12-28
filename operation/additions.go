@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+// sum of two natural int
+// input: string
+// output: DLL
 func IntAdd(a, b string) (*DLL, *OperationError) {
 	l := DLL{}
 
@@ -12,7 +15,7 @@ func IntAdd(a, b string) (*DLL, *OperationError) {
 		a, b = b, a
 	}
 
-	if a[0] == 48 || b[0] == 48 {
+	if (a[0] == 48 && len(a) > 1) || (b[0] == 48 && len(b) > 1) {
 		return &l, &OperationError{
 			errors.New("InputError"),
 			"First char of the input shouldn't be 0",
@@ -31,7 +34,7 @@ func IntAdd(a, b string) (*DLL, *OperationError) {
 		} else {
 			carry = 0
 		}
-		if err := l.Push(byte(sum + 48)); err != nil {
+		if err := l.Push(sum); err != nil {
 			return &l, &OperationError{
 				err.Error,
 				err.Message,
@@ -39,7 +42,7 @@ func IntAdd(a, b string) (*DLL, *OperationError) {
 		}
 	}
 	if carry == 1 {
-		if err := l.Push(byte(49)); err != nil {
+		if err := l.Push(1); err != nil {
 			return &l, &OperationError{
 				err.Error,
 				err.Message,
