@@ -61,7 +61,7 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 		a, b = b, a
 	}
 	ptrA, ptrB, carry, l := a.Head, b.Head, 0, DLL{}
-	
+
 	for i := 0; i < b.Length; i++ {
 		sum := ptrA.Value.(int) + ptrB.Value.(int) + carry
 		if sum > 9 {
@@ -76,10 +76,10 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 				err.Message,
 			}
 		}
-		ptrA, ptrB = ptrA.Next, ptrB.Next		
+		ptrA, ptrB = ptrA.Next, ptrB.Next
 	}
-	if ptrA != nil {			
-		for {			
+	if ptrA != nil {
+		for {
 			if ptrA == nil {
 				break
 			}
@@ -89,7 +89,7 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 				carry = 1
 			} else {
 				carry = 0
-			}			
+			}
 			if err := l.Push(sum); err != nil {
 				return &l, &OperationError{
 					err.Error,
@@ -97,7 +97,7 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 				}
 			}
 			ptrA = ptrA.Next
-		}			 		
+		}
 	}
 	if carry == 1 {
 		if err := l.Push(1); err != nil {
@@ -106,6 +106,6 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 				err.Message,
 			}
 		}
-	}		
+	}
 	return &l, nil
 }
