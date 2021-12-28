@@ -52,3 +52,30 @@ func IntAdd(a, b string) (*DLL, *OperationError) {
 
 	return &l, nil
 }
+
+// sum of two natural int
+// input: DLL
+// output: DLL
+func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
+ ptrA, ptrB, carry, l := a.Head, b.Head, 0, DLL{}    
+ for {
+     sum := ptrA.Value.(int) + ptrB.Value.(int) + carry
+     if sum > 9 {
+         sum = sum % 10
+         carry = 1
+     } else {
+         carry = 0
+     }
+     if err := l.Push(sum); err != nil {
+         return &l, &OperationError{
+             err.Error,
+             err.Message,
+         }
+     }
+     ptrA = ptrA.Next
+     ptrB = ptrB.Next
+     if ptrA == nil {
+         return &l, nil
+     }
+ }
+}
