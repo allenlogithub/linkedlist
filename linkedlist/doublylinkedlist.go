@@ -15,7 +15,7 @@ type (
 	DoublyLinkedList struct {
 		Head   *DNode
 		Tail   *DNode
-		length int
+		Length int
 	}
 
 	DoublyLinkedlistError struct {
@@ -28,10 +28,10 @@ type (
 func (l *DoublyLinkedList) Push(v interface{}) *DoublyLinkedlistError {
 	n := DNode{}
 	n.Value = v
-	if l.length == 0 {
+	if l.Length == 0 {
 		l.Head = &n
 		l.Tail = &n
-		l.length++
+		l.Length++
 		return nil
 	}
 
@@ -41,20 +41,20 @@ func (l *DoublyLinkedList) Push(v interface{}) *DoublyLinkedlistError {
 	n.Pre = ptr
 	ptr.Next = &n
 	l.Tail = &n
-	l.length++
+	l.Length++
 
 	return nil
 }
 
 // add a node at the Tail
-// adding a node from the Head or the Tail is based on pos (if pos > l.length/2: from Tail)
+// adding a node from the Head or the Tail is based on pos (if pos > l.Length/2: from Tail)
 func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError {
 	n := DNode{}
 	n.Value = v
-	if pos == l.length {
+	if pos == l.Length {
 		l.Push(v)
 		return nil
-	} else if pos > l.length {
+	} else if pos > l.Length {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Insert position should not larger than the last index",
@@ -65,30 +65,30 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 		n.Pre = nil
 		ptr.Pre = &n
 		l.Head = &n
-		l.length++
+		l.Length++
 		return nil
-	} else if pos*2 > (l.length) {
+	} else if pos*2 > (l.Length) {
 		ptr := l.Tail
-		for i := l.length - 1; i >= 0; i-- {
+		for i := l.Length - 1; i >= 0; i-- {
 			if i == pos {
 				n.Next = ptr
 				n.Pre = ptr.Pre
 				ptr.Pre = &n
 				ptr.Pre.Pre.Next = &n
-				l.length++
+				l.Length++
 				return nil
 			}
 			ptr = ptr.Pre
 		}
-	} else if pos*2 <= l.length {
+	} else if pos*2 <= l.Length {
 		ptr := l.Head.Next
-		for i := 1; i < l.length; i++ {
+		for i := 1; i < l.Length; i++ {
 			if i == pos {
 				n.Next = ptr
 				n.Pre = ptr.Pre
 				ptr.Pre = &n
 				ptr.Pre.Pre.Next = &n
-				l.length++
+				l.Length++
 				return nil
 			}
 			ptr = ptr.Next
@@ -103,7 +103,7 @@ func (l *DoublyLinkedList) PushAt(pos int, v interface{}) *DoublyLinkedlistError
 
 // pop the Value:v from DLL if v exists
 func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
-	if l.length == 0 {
+	if l.Length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
@@ -132,20 +132,20 @@ func (l *DoublyLinkedList) Pop(v interface{}) *DoublyLinkedlistError {
 
 // pop an element at a given position
 func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
-	if l.length == 0 {
+	if l.Length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
 		}
-	} else if pos >= l.length {
+	} else if pos >= l.Length {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Pop position should not larger than the last index",
 		}
 	}
-	if pos*2 > l.length {
+	if pos*2 > l.Length {
 		ptr := l.Tail
-		for i := l.length - 1; i >= 0; i-- {
+		for i := l.Length - 1; i >= 0; i-- {
 			if i == pos {
 				l.Remove(ptr)
 				return nil
@@ -154,7 +154,7 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 		}
 	} else {
 		ptr := l.Head
-		for i := 0; i < l.length; i++ {
+		for i := 0; i < l.Length; i++ {
 			if i == pos {
 				l.Remove(ptr)
 				return nil
@@ -171,7 +171,7 @@ func (l *DoublyLinkedList) PopAt(pos int) *DoublyLinkedlistError {
 
 // insert an element before a node
 func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedlistError {
-	if l.length == 0 {
+	if l.Length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
@@ -189,20 +189,20 @@ func (l *DoublyLinkedList) InsertBefore(n *DNode, v interface{}) *DoublyLinkedli
 		newNode.Next = n
 		n.Pre = &newNode
 		l.Head = &newNode
-		l.length++
+		l.Length++
 		return nil
 	}
 	newNode.Pre = n.Pre
 	newNode.Next = n
 	n.Pre.Next = &newNode
 	n.Pre = &newNode
-	l.length++
+	l.Length++
 	return nil
 }
 
 // insert an element after a node
 func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) *DoublyLinkedlistError {
-	if l.length == 0 {
+	if l.Length == 0 {
 		return &DoublyLinkedlistError{
 			errors.New("IndexError"),
 			"Length should larger than 0",
@@ -220,14 +220,14 @@ func (l *DoublyLinkedList) InsertAfter(n *DNode, v interface{}) *DoublyLinkedlis
 		newNode.Pre = n
 		n.Next = &newNode
 		l.Tail = &newNode
-		l.length++
+		l.Length++
 		return nil
 	}
 	newNode.Pre = n
 	newNode.Next = n.Next
 	n.Next.Pre = &newNode
 	n.Next = &newNode
-	l.length++
+	l.Length++
 	return nil
 }
 
@@ -250,7 +250,7 @@ func (l *DoublyLinkedList) Remove(n *DNode) *DoublyLinkedlistError {
 	} else {
 		n.Next.Pre = n.Pre
 	}
-	l.length--
+	l.Length--
 
 	return nil
 }
@@ -259,7 +259,7 @@ func (l *DoublyLinkedList) Remove(n *DNode) *DoublyLinkedlistError {
 // if fromHead is true, will traverse from Head
 // if fromHead is false, will traverse from Tail
 func (l *DoublyLinkedList) Show(fromHead bool) {
-	fmt.Println("DoublyLinkedList length:", l.length)
+	fmt.Println("DoublyLinkedList Length:", l.Length)
 	var data []interface{}
 	if fromHead {
 		node := l.Head
