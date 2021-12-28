@@ -1,8 +1,6 @@
 package operation
 
 import (
-	"errors"
-
 	"linkedlist"
 )
 
@@ -17,20 +15,17 @@ type (
 	}
 )
 
-func (l *DLL) ToString() (string, *OperationError) {
+// DLL.head.Value = 3, DLL.head.Next.Value = 2, DLL.head.Next.Next.Value = 1
+// -> "123" 
+// input: DLL
+// output: string
+func (l *DLL) ToString() string {
 	s, ptr := []byte{}, l.Tail
 	for {
 		if ptr == nil {
-			return string(s), nil
+			return string(s)
 		}
-		if val, ok := ptr.Value.(byte); ok {
-			s = append(s, val)
-		} else {
-			return "", &OperationError{
-				errors.New("TypeError"),
-				"Type should be byte",
-			}
-		}
+		s = append(s, byte(ptr.Value.(int) + 48))
 		ptr = ptr.Pre
 	}
 }
