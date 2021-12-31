@@ -1,10 +1,23 @@
 package operation
 
-// multiplication of two int (Schönhage–Strassen algorithm)
+// multiplication of two int, classical method, big O squared
 // input: string
 // output: DLL
 func DLLIntMultiply(a, b *DLL) (*DLL, *OperationError) {
-	ptrA, l, m, carry, sum := a.Head, DLL{}, make(map[int]int), 0, 0
+	ptrA, l, m, carry, sum, isPositive := a.Head, DLL{}, make(map[int]int), 0, 0, 1
+
+	if a.Tail.Value.(int) == 45 {
+		a.Remove(a.Tail)
+		isPositive ^= 0
+	} else {
+		isPositive ^= 1
+	}
+	if b.Tail.Value.(int) == 45 {
+		b.Remove(b.Tail)
+		isPositive ^= 0
+	} else {
+		isPositive ^= 1
+	}
 
 	for i := 0; i < a.Length; i++ {
 		if ptrA != nil {
@@ -36,6 +49,10 @@ func DLLIntMultiply(a, b *DLL) (*DLL, *OperationError) {
 	}
 	if sum == 0 {
 		l.Remove(l.Tail)
+	}
+
+	if isPositive == 0 {
+		l.Push(45)
 	}
 
 	return &l, nil
