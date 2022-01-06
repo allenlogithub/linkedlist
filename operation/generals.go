@@ -58,3 +58,19 @@ func ToDLL(s string) (*DLL, *OperationError) {
 
 	return &l, nil
 }
+
+func CopyDLL(a *DLL) (*DLL, *OperationError) {
+	l, ptr := DLL{}, a.Head
+	for {
+		if ptr == nil {
+			return &l, nil
+		}
+		if err := l.Push(ptr.Value); err != nil {
+			return &l, &OperationError{
+				err.Error,
+				err.Message,
+			}
+		}
+		ptr = ptr.Next
+	}
+}
