@@ -4,8 +4,9 @@ package operation
 // input: DLL
 // output: DLL
 func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
+	hasSwitched := false
 	if a.Length < b.Length {
-		a, b = b, a
+		a, b, hasSwitched = b, a, true
 	}
 	ptrA, ptrB, carry, l := a.Head, b.Head, 0, DLL{}
 
@@ -53,6 +54,10 @@ func DLLIntAdd(a, b *DLL) (*DLL, *OperationError) {
 				err.Message,
 			}
 		}
+	}
+
+	if hasSwitched {
+		a, b = b, a
 	}
 
 	return &l, nil
